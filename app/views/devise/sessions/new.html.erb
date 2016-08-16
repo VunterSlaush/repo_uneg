@@ -1,0 +1,14 @@
+<%= render 'welcome/index'%>
+<script>
+  $('#first-modal').on('click', function() 
+  { 
+    $('#signin-modal').foundation('reveal', 'open');
+  });
+    $('#first-modal').on('closed.zf.reveal', function() 
+  { 
+    $('#signin-modal').foundation('reveal', 'open');
+  });
+  
+</script>
+
+

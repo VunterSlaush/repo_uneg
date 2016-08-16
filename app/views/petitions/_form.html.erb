@@ -1,0 +1,17 @@
+<div class="row">
+	<div class="large-5 columns  auth-plain">
+	<%= form_for(petition) do |f| %>
+	    <h3>¿Por que ser Moderador?</h3>
+	    <%= f.text_area :razon, placeholder:"Escriba Aqui la Razon por la cual Quiere ser Moderador",
+	    style:"height:7rem; border-radius:5px;" %>
+	    <%= f.submit "Enviar Peticion", class:"button small-8-centered columns"%>
+	<% end %>
+	</div>
+
+	<div class="large-6 columns auth-plain">
+		<h2>Ayudanos!</h2>
+		<p class="text-justify"> Unete a los Moderadores, ayudanos a moderar, gestionar y mejorar el contenido
+			que es subido a la pagina dia a dia, solo tienes ingresar tus datos y razones por las cuales
+			quieres ser moderador para unirte a nuestro equipo.</p>
+	</div>
+</div>

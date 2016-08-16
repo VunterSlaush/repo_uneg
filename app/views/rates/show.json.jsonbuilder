@@ -1,0 +1,3 @@
+json.id @puntuacion.id
+json.valor @puntuacion.cuerpo
+json.user_id @puntuacion.user_id

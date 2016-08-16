@@ -1,0 +1,51 @@
+
+<br>
+<div class="row">
+	
+	<div class="small-9 columns small-centered">
+	 <%if @peticiones.count > 0 %>
+		<% @peticiones.each do |peticion| %>
+			<article class="event">
+
+				<h3><%= link_to peticion.user.nombre,
+				:controller => "administrator", 
+				:action => "mostrar_peticion", 
+				:id => peticion %></h3>
+
+				<h4>Correo: <%= peticion.user.email%></h4>
+
+				<%if peticion.razon.length < 200 %>
+				<p class="text-justify"><%= peticion.razon%></p>
+				<%else%>
+				<p class="text-justify"><%= peticion.razon[0,190]%>...</p>
+				<%end%>
+
+				<div class="small-8 columns small-centered">
+					<div class="small-5 columns">
+						<%= link_to 'Aceptar',  "/aceptar_peticion/#{peticion.id}", class:"button radius success" %>
+					</div>
+					<div class="small-5 columns">
+						<%= link_to 'Rechazar', "/rechazar_peticion/#{peticion.id}", class:"button radius alert" %>
+					</div>
+
+				</div>
+
+			</article>
+			<hr>
+		<%end%>
+	<%else%>
+		<div class="panel">
+			<h1 style="color:red;"><i class="fi-alert"></i></h1>
+			<h2>No Hay Peticiones Para ser Moderador!</h2>
+			<p class="text-justify">En Este Momento no se encontraros peticiones de usuarios
+				para ser moderadores, vuelve en otro momento para aprobar o rechazar algunas
+				peticiones</p>
+			 <%= link_to 'Pagina Principal', root_path, class:"button radius" %>
+		</div>
+	<%end%>
+	</div>
+	
+
+	
+</div>
+

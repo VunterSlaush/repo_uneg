@@ -1,0 +1,89 @@
+
+    <br>
+<div class="row full">
+
+      <div class="content medium-12 large-9  large-centered columns">
+
+      	<%if @contenido.count > 0 %>
+	    	<% @contenido.each do |c|%>
+		    	
+		        <article class="post">
+		          <%= image_tag get_file_icon(c), class:"author" %>
+		          <h2><%= c.titulo %></h2>
+		          <p class="subheader">Subido Por <text style="color:#008CBA;"><%= c.user.nombre %><text/>
+		          <p class="text-justify"><%= c.descripcion[0..300] %></p>
+		          
+				  <ul class="inline-list">
+				  	<li><%= link_to "Ver", c, class:"ghost button"%></li>
+					<li><%= link_to "Descargar", descarga_content_path(c), target: "blank",class:"ghost button" %></li>
+					<%if !c.status && current_user && current_user.administration_id > 1 %>
+						<li><%= link_to "Aprobar",  aprobar_content_path(c), class:"ghost button"  %></li>
+					<%end%>
+
+					<%if current_user && current_user.administration_id > 1%>
+						<li><%= link_to "Modificar", edit_content_path(c),class:"ghost button"  %></li>
+						<li><%= link_to "Eliminar",  c, method: :delete,class:"ghost button"  %></li>
+					<%end%>
+				</ul>
+		        </article>
+		        <hr>
+		    <%end%>
+
+			<ul class="apple_pagination">
+				<%= will_paginate @contenido, :previous_label => '<<', :next_label => '>>' %>
+			</ul>
+        <%else%>
+	    	<div class="row">
+	    		<br>
+	    		<div class="large-9 large-centered columns">
+	    			<div class="panel">
+	    				<h1 style="color:red;"><i class="fi-alert"></i></h1>
+	    				<h2> No se Encontraron contenidos</h2>
+	    				<p class="text-justify">Lo Sentimos pero nuestra base de datos no posee contenidos
+	    				   con las caracteristicas buscadas, ud puede buscar algun otro tipo de contenido
+	    				   o volver a la pagina principal.</p>
+	    				 <%= link_to 'Pagina Principal', root_path, class:"button radius" %>
+	    			</div>
+	    		</div>
+	    	</div>
+        <%end%> 
+      </div>
+</div>
+
+
+<script>
+var stickySidebar = $('#sidebar');
+
+if (stickySidebar.length > 0) { 
+  var stickyHeight = stickySidebar.height(),
+      sidebarTop = stickySidebar.offset().top;
+}
+
+// on scroll move the sidebar
+$(window).scroll(function () {
+  if (stickySidebar.length > 0) { 
+    var scrollTop = $(window).scrollTop();
+            
+    if (sidebarTop < scrollTop) {
+      stickySidebar.css('top', 40+scrollTop+'px');
+
+      // stop the sticky sidebar at the footer to avoid overlapping
+      var sidebarBottom = stickySidebar.offset().top + stickyHeight,
+          stickyStop = $('.main-content').offset().top + $('.main-content').height();
+      if (stickyStop < sidebarBottom) {
+        var stopPosition = $('.main-content').height() - stickyHeight;
+        stickySidebar.css('top', stopPosition);
+      }
+    }
+    else {
+      stickySidebar.css('top', '40px');
+    } 
+  }
+});
+
+$(window).resize(function () {
+  if (stickySidebar.length > 0) { 
+    stickyHeight = stickySidebar.height();
+  }
+});
+</script>

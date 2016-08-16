@@ -1,0 +1,123 @@
+
+<br>
+
+<div class="row">
+	<div class="medium-6 columns">
+
+		<a class="th"><%=image_tag @contenido.imagen.url(:thumb) %></a>
+		<p>Autor: <%= User.find(@contenido.user_id).nombre  %> - Publicado: <%= @contenido.fecha_publicacion.strftime('%d-%m-%Y') %> </p>
+		<p>Extension: <%= file_type(@contenido.archivo)%> - Peso: <%=@peso_archivo %></p>
+	</div>
+	<div class="medium-6 large-5 columns">
+		<h3><%= @contenido.titulo %></h3>
+		<p class="content-descripcion"><%= @contenido.descripcion %></p>
+		<%if @contenido.status %>
+			<%= render "rates/form" %>
+		<%end%>
+		<%= link_to "Descargar", descarga_content_path(@contenido),
+		class:"button expand radius", target: "blank" %>
+		
+			<% if current_user && current_user.administration_id > 1 %>
+				<div class="small secondary expanded button-group">
+					<% if !@contenido.status%>
+					<%= link_to "Aprobar", aprobar_content_path(@contenido),class:"button  radius" %>
+					<%end%>
+					<%= link_to "Eliminar", @contenido, method: :delete,class:"button  radius" %>
+					<%= link_to "Modificar", edit_content_path(@contenido),class:"button  radius" %>
+				</div>
+			<%end%>	
+	</div>
+</div>
+<div class="row">
+	<hr>
+	<section class="secondary-tabs">		
+
+			<ul class="tabs row collapse" data-tab>
+				<li class="tab-title large-6 columns">
+					<a href="#panel1"> <i class="fi-comments"></i> Comentarios</a>
+				</li>
+
+				<li class="tab-title large-6 columns">
+					<a href="#panel2"> <i class="fi-shopping-bag"></i> Tal vez te interese</a>
+				</li>
+			</ul>
+
+			<div class="tabs-content">
+
+				<div class="content active columns" id="panel1">
+					<h3>Comentarios</h3>
+					<%if @contenido.status %>
+						<%= render 'comments/form'%>
+					<%end%>
+					<div id="comentarios">
+						<% @contenido.comments.reverse_each do |comentario|%>
+							<div class="row collapse columns" >
+								<h5><%= User.find(comentario.user_id).nombre%> (<%=comentario.creado.strftime("%B, %d - %H:%M")%>)</h5>
+								<p><%=comentario.cuerpo%></p>
+							</div>
+							<hr>
+						<%end%>	
+					</div>
+				</div>
+
+				<div class="content columns" id="panel2">
+					<h2 class="text-center">Contenido Relacionado</h2>
+
+						<%if @contenido_relacionado[0] %>
+						<div class="large-2 columns border">
+							<%= image_tag get_file_icon(@contenido_relacionado[0]), class:"tha large-10 large-centered columns" %>
+							<h5><%= link_to @contenido_relacionado[0].titulo[0..20], @contenido_relacionado[0] %></h5>
+							<p class="text-justify"><%= @contenido_relacionado[0].descripcion[0..60]%></p>
+						</div>
+						<%end%>
+						<%if @contenido_relacionado[1] %>
+						<div class="large-2 columns border">
+							<%= image_tag get_file_icon(@contenido_relacionado[1]), class:"tha large-10 large-centered columns" %>
+							<h5><%= link_to @contenido_relacionado[1].titulo[0..20], @contenido_relacionado[1] %></h5>
+							<p class="text-justify"><%= @contenido_relacionado[1].descripcion[0..60]%></p>
+						</div>
+						<%end%>
+						<%if @contenido_relacionado[2] %>
+						<div class="large-2 columns border">
+							<%= image_tag get_file_icon(@contenido_relacionado[2]), class:"tha large-10 large-centered columns" %>
+							<h5><%= link_to @contenido_relacionado[2].titulo[0..20], @contenido_relacionado[2] %></h5>
+							<p class="text-justify"><%= @contenido_relacionado[2].descripcion[0..60]%></p>
+						</div>
+						<%end%>
+						<%if @contenido_relacionado[3]%>
+						<div class="large-2 columns border">
+							<%= image_tag get_file_icon(@contenido_relacionado[3]), class:"tha large-10 large-centered columns" %>
+							<h5><%= link_to @contenido_relacionado[3].titulo[0..20], @contenido_relacionado[3] %></h5>
+							<p class="text-justify"><%= @contenido_relacionado[3].descripcion[0..60]%></p>
+
+						</div>
+						<%end%>
+						<%if @contenido_relacionado[4] %>
+						<div class="large-2 columns border end">
+							<%= image_tag get_file_icon(@contenido_relacionado[4]), class:"tha large-10 large-centered columns" %>
+							<h5><%= link_to @contenido_relacionado[4].titulo[0..20], @contenido_relacionado[4] %></h5>
+							<p class="text-justify"><%= @contenido_relacionado[4].descripcion[0..60]%></p>
+
+						</div>
+						<%end%>
+						<%if @contenido_relacionado[5] %>
+						<div class="large-2 columns border end">
+							<%= image_tag get_file_icon(@contenido_relacionado[5]), class:"tha large-10 large-centered columns" %>
+							<h5><%= link_to @contenido_relacionado[5].titulo[0..20], @contenido_relacionado[5] %></h5>
+							<p class="text-justify"><%= @contenido_relacionado[5].descripcion[0..60]%></p>
+
+						</div>
+						<%end%>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+	</section>
+
+</div>
+
+
+
+

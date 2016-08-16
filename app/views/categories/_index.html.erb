@@ -1,0 +1,12 @@
+<div class="row categories-delete-form">	
+	<%= form_tag(eliminar_categorias_path) do %>
+		<h3>Selecciona Categorias a Eliminar</h3>
+
+		<%= select_tag  "select_categories",
+			options_from_collection_for_select(Category.all, "id", "nombre"),
+			{ :multiple =>true}
+		 %>
+
+		<%= submit_tag "Eliminar Seleccionadas",  class:" small-6-centered columns button" %>
+	<%end%>
+</div>

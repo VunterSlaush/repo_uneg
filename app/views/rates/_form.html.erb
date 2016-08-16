@@ -1,0 +1,39 @@
+<div class="panel" id="valor-rate"> 
+    <%if current_user && Rate.exists?(user_id: current_user.id, content_id: @contenido.id) %>
+      <p>Tu Apreciacion: <%= Rate.find_by(user_id: current_user.id, content_id: @contenido.id).valor %> pts
+        <br> Apreciacion General: <%= @contenido.rates.average(:valor) %> pts</p>
+    <%else%>
+        <%if @contenido.rates.length > 0%>
+          <p>Apreciacion General: <%= @contenido.rates.average(:valor) %> pts</p>
+        <%else%>
+          <p>No ha sido calificado, se el primero!</p>
+        <%end%>
+    <%end%>
+
+</div>
+
+<%= form_for([@contenido,@puntaje],  html: {id: "rates-form"}) do |f| %>    
+<div class="row collapse">
+  <div class="large-8 columns">
+    <div class="range-slider radius" data-slider data-options="start: 0; end: 5; step: 0.5; ">
+      <span class="range-slider-handle" role="slider" tabindex="0"></span>
+      <span class="range-slider-active-segment"></span>
+      <%= f.hidden_field :valor %>
+    </div>
+  </div>
+
+  <div class="large-4 columns"><%= f.submit "Calificar", class:"button radius" %></div>
+</div>
+<% end %>
+
+
+<script>
+$(document).foundation({
+  slider: {
+    on_change: function()
+    {
+      console.log("puntuar");  
+    }
+  }
+});
+</script>

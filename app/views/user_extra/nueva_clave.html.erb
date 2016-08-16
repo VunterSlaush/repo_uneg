@@ -1,0 +1,21 @@
+
+
+<%= form_tag('/responder_pregunta') do |f| %>
+<div class="large-6  large-centered columns auth-plain">
+	<div class="signup-panel left-solid">
+		<h3 class="welcome text-center">Olvidaste tu Contraseña?</h3>
+		
+		<div class="row collapse">
+			<p>Ingresa tu correo electronico</p>
+			<div class="small-2  columns">
+				<span class="prefix"><i class="fi-mail"></i></span>
+			</div>
+			<div class="small-10  columns">
+				<%= email_field_tag :email %>
+			</div>
+		</div>
+
+		<%= submit_tag "Seguir", class:"button expand radius"%> 
+	</div> 	
+</div>
+<% end %>

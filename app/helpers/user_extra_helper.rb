@@ -1,0 +1,2 @@
+module UserExtraHelper
+end

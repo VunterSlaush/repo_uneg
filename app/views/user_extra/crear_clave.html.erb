@@ -1,0 +1,22 @@
+
+<%= form_tag('change_password') do %>
+
+<div class="large-6  large-centered columns auth-plain">
+	<div class="signup-panel left-solid">
+		<h3 class="welcome text-center">Responda su Pregunta Secreta </h3>
+		<h3 class="welcome text-center"><%= @user.pregunta_secreta %>?</h3>
+		<div class="row collapse">
+			<p>Ingresa tu Respuesta Secreta</p>
+			<div class="small-2  columns">
+				<span class="prefix"><i class="fi-unlock"></i></span>
+			</div>
+			<div class="small-10  columns">
+				<%= text_field_tag :respuesta %>
+				<%= hidden_field_tag :email, params[:email]%>
+			</div>
+		</div>
+
+		<%= submit_tag "Seguir", class:"button expand radius"%> 
+	</div> 	
+</div>
+<% end %>

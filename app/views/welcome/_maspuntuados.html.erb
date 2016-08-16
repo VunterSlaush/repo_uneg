@@ -1,0 +1,82 @@
+<h1 class="text-center title-orbit"> Top 5 Mas Valorados </h1>
+<div class="row">
+	<div class="small-2 columns">
+		<%= link_to top_rates[3] do %>
+		<div class="service">
+			<div class="service-icon-box">
+				<%= image_tag get_file_icon(top_rates[3]), class:"service-icon" %>
+			</div>
+			<h4 class="service-heading">4# <%=top_rates[3].titulo[0..20]%></h4>
+			<%if top_rates[3].descripcion.length < 80 %>
+				<p class="service-description"><%=top_rates[3].descripcion%></p>
+			<%else%>
+				<p class="service-description"><%=top_rates[3].descripcion[0..75]%>...</p>
+			<%end%>
+		</div>
+		<%end%>
+	</div>
+
+	<div class="small-2 columns">
+		<%= link_to top_rates[1] do %>
+		<div class="service">
+			<div class="service-icon-box">
+				<%= image_tag get_file_icon(top_rates[1]), class:"service-icon" %>
+			</div>
+			<h4 class="service-heading">2# <%=top_rates[1].titulo[0..20]%></h4>
+			<%if top_rates[1].descripcion.length < 80 %>
+				<p class="service-description"><%=top_rates[1].descripcion %></p>
+			<%else%>
+				<p class="service-description"><%=top_rates[1].descripcion[0..75] %>...</p>
+			<%end%>
+		</div>
+		<%end%>
+	</div>
+
+	<div class="small-4 columns">
+		<%= link_to top_rates[0] do %>
+		<div class="service">
+			<div class="service-icon-box">
+				<%= image_tag get_file_icon(top_rates[0]), class:"service-icon" %>
+			</div>
+			<h4 class="service-heading">1# <%=top_rates[0].titulo[0..20]%></h4>
+			<%if top_rates[0].descripcion.length < 80 %>
+				<p class="service-description"><%=top_rates[0].descripcion%></p>
+			<%else%>
+				<p class="service-description"><%=top_rates[0].descripcion[0..75]%>...</p>
+			<%end%>
+		</div>
+		<%end%>
+	</div>
+
+	<div class="small-2 columns">
+		<%= link_to top_rates[2] do %>
+		<div class="service">
+			<div class="service-icon-box">
+				<%= image_tag get_file_icon(top_rates[2]), class:"service-icon" %>
+			</div>
+			<h4 class="service-heading">3# <%=top_rates[2].titulo[0..20]%></h4>
+			<%if top_descargas[2].descripcion.length < 80 %>
+				<p class="service-description"><%=top_rates[2].descripcion %></p>
+			<%else%>
+				<p class="service-description"><%=top_rates[2].descripcion[0..75] %>...</p>
+			<%end%>
+		</div>
+		<%end%>
+	</div>
+
+	<div class="small-2 columns">
+		<%= link_to top_rates[4] do %>
+		<div class="service">
+			<div class="service-icon-box">
+				<%= image_tag get_file_icon(top_rates[4]), class:"service-icon" %>
+			</div>
+			<h4 class="service-heading">5# <%=top_rates[4].titulo[0..20]%></h4>
+			<%if top_rates[4].descripcion.length < 80 %>
+				<p class="service-description"><%=top_rates[4].descripcion%></p>
+			<%else%>
+				<p class="service-description"><%=top_rates[4].descripcion[0..75]%>...</p>
+			<%end%>
+		</div>
+		<%end%>
+	</div>
+</div>

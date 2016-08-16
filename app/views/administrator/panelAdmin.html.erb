@@ -1,0 +1,269 @@
+
+<section class="secondary-tabs">
+	<div>			
+
+	<ul class="tabs vertical" data-tab>
+		<li class="tab-title">
+			<a href="#panel1"> <i class="fi-checkbox"></i> Visitas Diarias</a>
+		</li>
+		
+		<li class="tab-title">
+			<a href="#panel2"> <i class="fi-results-demographics"></i> Visitas Mensuales</a>
+		</li>
+		<li class="tab-title ">
+			<a href="#panel3"> <i class="fi-download"></i> Top Descargados</a>
+		</li>
+		<li class="tab-title">
+			<a href="#panel4"><i class="fi-star"></i> Top Puntuados</a>
+		</li>
+		<li class="tab-title"> 
+			<a href="#panel5"><i class="fi-comments"></i> Top Comentados</a>
+		</li>
+		<li class="tab-title "> 
+			<a href="#panel6"><i class="fi-graph-pie"></i> Tipos de Contenido</a>
+		</li>
+		<li class="tab-title">
+			<a href="#panel8"><i class="fi-clipboard-notes"></i> Categoria-Descargas</a>
+		</li>
+		<li class="tab-title">
+			<a href="#panel7"> <i class="fi-graph-trend"></i> Otras Estadisticas</a>
+		</li>
+		
+	</ul>
+
+		<div class="small-9 columns">
+
+
+			<div class="tabs-content">
+
+				<div class="content active row" id="panel1">
+					<h2>Visitas Diarias</h2>
+					<%= column_chart @visitas_dia, xtitle: "Dias", ytitle: "Cantidad de Visitas por dia" %>
+					<%= form_tag("/adminPanel", :method => :get) do %>
+						<div class= "row collapse">
+							<div class="small-5 columns">
+								<p>Dia Inicial</p>
+								<%= date_field_tag "Desde", params[:Desde] %>
+						 	</div>
+							<div  class="small-5 columns">
+								<p>Dia Final</p>
+								<%= date_field_tag "Hasta", params[:Hasta]  %>
+							</div>			
+						</div>	
+						<%= submit_tag "Enviar",:name => nil,class:"button" %>
+					<% end %>		
+				</div>
+
+				<div class="content row active" id="panel2">
+					<h2>Visitas Mensuales</h2>
+
+					<%= column_chart @visitas_mes,
+					    xtitle: "Meses", ytitle: "Cantidad de Visitas por Mes" %>
+
+					<%= form_tag("/adminPanel", :method => :get) do %>
+						<div class= "row collapse">
+							<div class="small-5 columns">
+								<p>Mes Inicial</p>
+								<%= month_field_tag "MDesde", params[:MDesde] %>
+						 	</div>
+							<div  class="small-5 columns">
+								<p>Mes Final</p>
+								<%= month_field_tag "MHasta", params[:MHasta]  %>
+							</div>
+							
+						</div>	
+						<%= submit_tag "Enviar",:name => nil,class:"button" %>
+					<% end %>	
+				</div>
+
+				<div class="content row active" id="panel3">
+					<h2>Top Mas Descargados</h2>
+					<%= bar_chart @mas_descargados, ytitle: "Cantidad de Descargas" %>
+					<%= form_tag("/adminPanel", :method => :get) do %>
+						<div class= "row">
+						 	<div class="small-2 columns">
+						 		<p>Limite del Top:</p>
+								<%= number_field_tag "n", params[:n] %>
+								<%= submit_tag "Enviar",:name => nil, class:"button" %>	
+							</div>
+							
+						</div>	
+					<% end %>		
+				</div>
+
+				<div class="content row active" id="panel4">
+					<%if params[:select_categories] %>
+						<h2>Top Mas Puntuados (<%= Category.find(params[:select_categories]).nombre %>)</h2>
+					<%else%>
+						<h2>Top Mas Puntuados</h2>
+					<%end%>
+
+					<%= column_chart @mas_puntuados %>
+					<%= form_tag("/adminPanel", :method => :get) do %>
+					<div class= "row collapse">
+						<div class="small-5 columns">
+							<p>Categorias</p>
+							<%= select_tag  "select_categories",
+							options_from_collection_for_select(Category.all.order(:nombre), "id", "nombre")
+					 		%>
+					 	</div>
+						<div  class="small-5 columns">
+							<p>Limite del Top</p>
+							<%= number_field_tag "n", params[:n] %>
+						</div>
+						
+					</div>	
+					<%= submit_tag "Enviar",:name => nil,class:"button" %>
+					<% end %>		
+				</div>
+
+				<div class="content row active collapse" id="panel5">
+					<h2>Top Mas Comentados</h2>
+					<%= bar_chart @mas_comentados, ytitle: "Cantidad de Comentarios" %>
+					<%= form_tag("/adminPanel", :method => :get) do %>
+						<div class= "row">
+						 	<div class="small-2 columns">
+						 		<p>Limite del Top:</p>
+								<%= number_field_tag "n", params[:n] %>
+								<%= submit_tag "Enviar",:name => nil, class:"button" %>	
+							</div>
+							
+						</div>		
+					<% end %>
+				</div>
+
+				<div class="content row active collapse" id="panel6">
+					<h2>Relacion de Tipos de Contenido</h2>
+					<%= pie_chart @tipoContenido %>
+					<h3>Esta Grafica especifica la relacion que hay entre la cantidad de 
+						contenido subido, y la extension del archivo de cada contenido.</h3>
+				</div>
+
+				<div class="content row active collapse" id="panel7">
+					<br>
+					<div class="large-centered large-10 columns panel text-justify">
+						<h2 class="text-center">Estadisticas Generales</h2>
+						<ul style="list-style-type: none;">
+						<li>
+							<h3><i class="fi-male"></i> Cantidad de Usuarios: <%= User.all.length%> Usuarios</h3>
+						</li>
+						<li>
+						<h3>
+							<i class="fi-torsos-all"></i> Usuarios Moderadores: <%= User.where(:administration_id => 2).length%> Usuarios</h3>
+						</li>
+
+						<li>
+							<h3>
+							<i class="fi-unlock"></i>Peticiones de Moderador: 
+							<%= Petition.all.count %> peticiones</h3>
+						</li>
+						
+						<li>
+						<h3> <i class="fi-clock"></i> Permanencia Usuarios:
+							<%= @hora_promedio %> Horas <%= @min_sobrantes%> Minutos</h3>
+						</li>
+
+						<li>
+							<h3><i class="fi-page"></i> Cantidad de Contenidos Total:
+								<%= Content.all.count %> contenidos</h3>
+						</li>
+						 <li>
+							<h3><i class="fi-page-add"></i> Cantidad de Contenidos Aprobados:
+								<%= Content.where(:status => true).count %> contenidos</h3>
+						</li>
+						<li>
+							<h3><i class="fi-page-edit"></i> Cantidad de Contenidos por Aprobar:
+								<%= Content.where(:status => false).count %> contenidos</h3>
+						</li>
+
+						<li>
+							<h3><i class="fi-save"></i> Totalidad del peso de los archivos:
+								<%= @peso_total_contenidos.round(2) %> MB</h3>								
+						</li>
+
+
+
+						<li>
+							<h3><i class="fi-check"></i> cantidad de Visitas Totales:
+								<%= Visit.all.length %> Visitas</h3>								
+						</li>
+
+						</ul>
+					</div >
+				</div>
+
+				<div class="content row active collapse" id="panel8">
+					<h2>Top Categorias Mas Descargadas</h2>
+					<%= column_chart @categorias_descargadas,xtitle:"Categorias",ytitle:"Cantidad de Descargas" %>
+					<%= form_tag("/adminPanel", :method => :get) do %>
+						<div class= "row">
+						 	<div class="small-2 columns">
+						 		<p>Limite del Top:</p>
+								<%= number_field_tag "n", params[:n] %>
+								<%= submit_tag "Enviar",:name => nil, class:"button" %>	
+							</div>
+							
+						</div>	
+					<% end %>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</section>
+
+<script >
+$(document).ready(function() {
+	$('#panel1').removeClass('active');
+	$('#panel2').removeClass('active');
+	$('#panel3').removeClass('active');
+	$('#panel4').removeClass('active');
+	$('#panel5').removeClass('active');
+	$('#panel6').removeClass('active');
+	$('#panel7').removeClass('active');
+	$('#panel8').removeClass('active');
+});
+</script>
+
+<script>
+$(document).foundation
+({
+	tab:
+	{
+		callback : function (tab) 
+		{	
+			document.cookie=null;
+			var pan = String(tab.context).split('#');
+			tab.resize();
+			console.log(pan);
+			document.cookie=pan[1];
+		}
+	}
+});
+
+ $(document).ready(function() 
+ {
+  	$('#panel1').removeClass('active');
+	$('#panel2').removeClass('active');
+	$('#panel3').removeClass('active');
+	$('#panel4').removeClass('active');
+	$('#panel5').removeClass('active');
+	$('#panel6').removeClass('active');
+	$('#panel7').removeClass('active');
+	$('#panel8').removeClass('active');
+    if (document.cookie != "")
+    {
+
+      $('#'+document.cookie).addClass('active');
+    }
+    else
+    {
+    	$('#panel1').addClass('active');
+    }        
+  });
+</script>
+</script>
+
+
+
+

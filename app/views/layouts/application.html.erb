@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>RepoUneg</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+  <%= javascript_include_tag "assets/javascripts/highcharts.js", "chartkick" %>
+  <%= javascript_include_tag "assets/javascripts/jquery.multi-select.js", "chartkick" %>
+  <%= csrf_meta_tags %>
+
+</head>
+<body>
+
+	<div class="contain-to-grid sticky">
+		<nav class="top-bar" data-topbar role="navigation">
+			<ul class="title-area">
+				<li class = "name">
+					<h1><%= link_to "Repo_uneg",root_path %></h1>
+				</li>
+			</ul>
+
+			<ul class="toggle-topbar"><a href="#" class="fi-list"> Menu</a></ul>
+			<section class="top-bar-section">
+				<ul class="right">			
+				    <li  id="search_box" class="has-form">
+				  		<%= form_tag({:controller => "/contents", :action => "index"}, :method => :get) do %>
+				        	<li class="search">
+				        	<label><%= text_field_tag "searchbox", params[:searchbox],
+				        	 type:"search", placeholder: "¿Que Desea Buscar?" %></label>
+				        	</li>
+				        	<li class="has-button">
+				            	<%= submit_tag "Buscar",id:"search_button", :name => nil, class:"small button" %>
+				        	</li>
+				        <% end %>
+				    </li>
+
+					<%if !user_signed_in? %>
+						<li>
+							<a href="#" data-reveal-id="signin-modal">Iniciar Sesion</a>
+						</li>
+						<li>
+							<%= link_to "Registrarse", new_user_registration_path %>
+						</li>
+					<%elsif %>	
+					<li><%= link_to "Añadir Contenido",new_content_path %></li>
+					<%if Petition.exists?(:user_id => current_user.id)%>
+						<li><a href="#" data-reveal-id="petition-modal">Editar Peticion</a></li>
+					<%elsif current_user.administration_id < 2 %>
+						<li><a href="#" data-reveal-id="petition-modal">Quiero Ser Moderador</a></li>
+					<%end%>
+
+					<%if current_user.administration_id > 1 %>
+					<li class="has-dropdown"><a href="#" >Administrador</a>
+						<ul class="dropdown">
+							<li><%= link_to "Publicaciones Pentientes", publications_path %></li>
+							<%if current_user.administration_id > 2 %>
+							<li><%= link_to "Peticiones Moderadores", "/verPeticiones" %></li>
+							<li >	
+								<%= link_to "Panel de Administador", "/adminPanel" %>
+							</li>							
+
+							<li >	
+								<a href="#" data-reveal-id="categorie-modal">Crear Categoria</a>
+							</li>
+
+							<li >	
+								<a href="#" data-reveal-id="delcategorie-modal">Borrar Categorias</a>
+							</li>
+							<li >	
+								<%= link_to "Descargar Respaldo", 'download_backup', method: :post %>
+							</li>
+							
+							<%end%>
+						</ul>
+					</li>
+					
+					<%end%>
+						<li>
+							<%= link_to "Cerrar Sesion",destroy_user_session_path, method: :delete %>
+						</li>
+					<%end%>
+
+			    </ul>
+			</section>
+		</nav>
+	</div>
+
+
+<%if notice || alert %>
+	
+	<div class='reveal-modal small' id='first-modal' data-reveal>
+		<%if notice%>
+			<p class="notification_title"><i class="fi-check" style="color:green;"></i><%= notice %></p>
+		<%else%>
+			<p class="notification_title"><i class="fi-alert" style="color:red;"></i><%= alert %></p>
+		<%end%>
+	</div>
+	<script>
+	 $('#first-modal').foundation('reveal', 'open'); 
+	 $('#first-modal').on('click', function () 
+	 {
+	 	$('#first-modal').foundation('reveal', 'close'); 
+	 });
+	 </script>
+<%end%>
+	
+
+
+	<%= yield %>
+<div id="signin-modal" class="row reveal-modal remove-whitespace" data-reveal>
+    <%= render 'devise/sessions/new' %>
+  	<a  id="close-signin-modal" class="close-reveal-modal">&#215;</a>
+</div>
+
+<div id="categorie-modal" class="row reveal-modal remove-whitespace small" data-reveal>
+    <%= render 'categories/new' %>
+  	<a  id="close-categorie-modal" class="close-reveal-modal">&#215;</a>
+</div>
+
+<div id="delcategorie-modal" class="row reveal-modal remove-whitespace small" data-reveal>
+    <%= render 'categories/index' %>
+  	<a  id="close-delcategorie-modal" class="close-reveal-modal">&#215;</a>
+</div>
+
+<div id="petition-modal" class="reveal-modal remove-whitespace" data-reveal>
+    <%= render 'petitions/form' %>
+  	<a  id="close-delcategorie-modal" class="close-reveal-modal">&#215;</a>
+</div>
+
+
+
+</body>
+</html>
+
+<script>
+$(function()
+{
+	$('#search_button').on("click", function()
+	{	
+		var categorias_busqueda = $('#search_categories');
+		var searchbox = $('#searchbox').val();
+		if(categorias_busqueda.val())
+		{
+			console.log(categorias_busqueda.val());
+			window.location= "localhost:3000/contents?utf8=✓&searchbox="+searchbox+"&categorias="+categorias_busqueda.val();
+		}
+		else
+		{
+			window.location = "localhost:3000/contents?utf8=✓&searchbox="+searchbox;
+		}
+	})
+
+});
+</script>

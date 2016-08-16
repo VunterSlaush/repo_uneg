@@ -1,0 +1,21 @@
+<br>
+<div class=" large-10 large-centered columns">
+	<div class="panel" style="height:25rem;">
+	<h1 style="color:#008CBA;"><i class="fi-torso-business"></i></h1>
+
+	<h2 class="text-justify" ><strong><%= @peticion.user.nombre%></strong> quiere ser Moderador<h2>
+	<h3 class="text-justify">Correo: <%= @peticion.user.email %></h3>
+	<p class="text-justify">Razon de la Peticion: <%= @peticion.razon%></p>
+	<div class="small-8 columns small-centered">
+		<div class="small-5 columns">
+			<%= link_to 'Aceptar',  "/aceptar_peticion/#{@peticion.id}", class:"button radius success" %>
+		</div>
+		<div class="small-5 columns">
+			<%= link_to 'Rechazar', "/rechazar_peticion/#{@peticion.id}", class:"button radius alert" %>
+		</div>
+	</div>
+</div>
+</div>
+
+
+

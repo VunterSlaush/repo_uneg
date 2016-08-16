@@ -1,0 +1,97 @@
+
+
+
+ <div class="row">
+    <div class="large-6 columns">
+      <div class="add_content_panel">
+        <h3 class="welcome">Agrega Contenido</h3>
+        
+        <%= form_for(@contenido) do |f| %>
+          <div class="row collapse">
+              <%= f.text_field :titulo, placeholder: "Titula tu Contenido" %>
+          </div>
+
+          <div class="row collapse">
+              <%= f.text_area :descripcion, placeholder: "Describe tu contenido" %>
+          </div>
+
+          <div class="row collapse">
+              <div class="file-upload small-5 columns button radius medium">
+                <i class="fi-photo"></i>            
+			       	  <%= f.file_field :imagen, accept: 'image/png,image/gif,image/jpeg', class:"file-input" %>
+                Imagen
+              </div>
+
+              <div class="file-upload small-5 columns  button radius medium">
+                <i class="fi-folder"></i>            
+                <%= f.file_field :archivo, class:"file-input" %>
+                Contenido
+              </div>
+          </div>
+
+
+
+          <dl class="accordion small-12 small-centered columns " data-accordion>
+            <dd class="accordion-navigation " style="border-radius:5px;">
+              <a href="#panel1b" style="border-radius:5px;" ><h4 class="text-center" style="color:white;">Categoriza tu Contenido</h4></a>
+              <div id="panel1b" class="content">
+                <div class="row ">
+                  <div class="small-10 small-centered columns">
+                    <%= f.select :contentcategories, 
+                    Category.all.order(:nombre).collect{ |e| [e.nombre, e.id]  },
+                    {:prompt => ""},
+                    {:multiple => true} %>
+                  </div>
+                </div>
+              </div>
+            </dd>
+          </dl>
+
+          </dl>
+          <br>
+
+          <%= f.submit "Subir Contenido",class:"button radius small-12 small-centered columns"%>
+
+
+
+      
+      </div>
+    </div>
+
+
+
+    <div class="large-6 columns auth-plain">
+      <div class="signin-panel newusers">
+
+        <%if !@contenido.errors.empty?%>
+          <h3 class="welcome">Recuerda que: </h3>
+          <%@contenido.errors.full_messages.each do |mensaje| %>
+            <p><%= mensaje %></p> 
+          <%end%>
+        <%end%>
+
+        <h3 class="welcome">Comparte tu Contenido</h3>
+        <p class="text-justify">Tu Contenido es importante para nosotros y para los otros usuarios, subiendo 
+          algun contenido ayudas a otra persona, ademas de que subiendolo puedes tener acceso a el de manera
+          gratuita e instantanea.
+          <br><br>
+          Tu contenido puede ser valorado por ti y por otros usuarios, recuerda ser consciente del tipo de 
+          archivos que subes a la web. 
+          <br><br>
+          Categorizando tu contenido das pie a que tu y otros usuarios puedan encontrar contenidos relacionados
+          al contenido subido, no es obligatorio pero otros usuarios lo agradeceran.
+          </p>
+      
+      </div>
+    </div>
+  </div>
+
+<%end%>
+
+<script>
+  $('#content_contentcategories').multiSelect();
+</script>
+
+
+
+

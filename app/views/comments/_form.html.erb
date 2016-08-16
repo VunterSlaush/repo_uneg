@@ -1,0 +1,15 @@
+<%= form_for([@contenido,@comentario], remote: true,
+ 	html: {id: "comentarios-form", :"data-type" => "json"}) do |f| %>
+
+ 	<%if current_user%>
+ 		<label>
+			<%= f.text_area :cuerpo, placeholder: "Escribe Tu Comentario Aqui " %>
+		</label>
+			<%= f.submit "Comentar", class:"button" %>
+
+	<%else%>
+		<%= f.text_area :cuerpo, placeholder: "Inicia Sesion para Comentar", disabled: true %>
+		<a href="#" data-reveal-id="signin-modal" class = "button">Inicia Sesion</a>
+	<%end%>
+<% end %>
+

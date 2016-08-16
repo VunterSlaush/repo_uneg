@@ -1,0 +1,4 @@
+<%@categorias.each do |categoria|%>
+<h2> <%= categoria.nombre%> </h2>
+<p><%= link_to "Eliminar",categoria, method: :delete%></p>
+<%end%>
